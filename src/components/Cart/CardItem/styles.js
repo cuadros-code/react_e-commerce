@@ -5,12 +5,11 @@ export default makeStyles(() => ({
     // height: '460px',
   },
   media: {
-    height: '100px',
-    objectFit: 'cover',
-    paddingTop: '56.25%', // 16:9
+    height: '190px',
+    backgroundSize: 'contain'
   },
   cardContent: {
-    display: 'flex',
+    // display: 'flex',
     justifyContent: 'space-between',
   },
   cartActions: {

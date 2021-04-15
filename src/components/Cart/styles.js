@@ -19,10 +19,13 @@ export default makeStyles((theme) => ({
   },
   link: {
     textDecoration: 'none',
+    fontWeight: 'bold',
+    color: '#1F9CB7'
   },
   cardDetails: {
     display: 'flex',
-    marginTop: '10%',
+    marginTop: '5%',
+    marginBottom: '5%',
     width: '100%',
     justifyContent: 'space-between',
   },

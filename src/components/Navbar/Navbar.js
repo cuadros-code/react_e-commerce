@@ -5,7 +5,6 @@ import useStyles from './styles'
 import logo from '../../assets/commerce.png'
 
 const Navbar = ({ totalItems }) => {
-
   const classes = useStyles()
 
   return (
@@ -21,14 +20,16 @@ const Navbar = ({ totalItems }) => {
             E-commerce
           </Typography>
           <div className={classes.grow} />
+
           <div className={classes.button} >
             <IconButton component={Link} to="/cart" aria-label="Show card items" color="inherit">
               <Badge badgeContent={totalItems} color="secondary">
                 <ShoppingCart />
               </Badge>
             </IconButton>
-
           </div>
+
+
         </Toolbar>
 
       </AppBar>
