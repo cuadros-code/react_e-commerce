@@ -2,10 +2,14 @@ import { AppBar, Toolbar, IconButton, Badge, MenuItem, Menu, Typography } from '
 import { ShoppingCart } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
 import useStyles from './styles'
-import logo from '../../assets/commerce.png'
+import logo from '../../assets/uva.png'
+import { useContext } from 'react'
+import { ContextCart } from '../../context/Cart/StateCart'
 
-const Navbar = ({ totalItems }) => {
+const Navbar = () => {
   const classes = useStyles()
+
+  const { state: { cart } } = useContext(ContextCart)
 
   return (
     <>
@@ -17,13 +21,13 @@ const Navbar = ({ totalItems }) => {
         <Toolbar>
           <Typography component={Link} to="/" variant="h6" className={classes.title} color="inherit" >
             <img loading="lazy" src={logo} alt="Commerce" height="25px" className={classes.image} />
-            E-commerce
+              WineGood
           </Typography>
           <div className={classes.grow} />
 
           <div className={classes.button} >
             <IconButton component={Link} to="/cart" aria-label="Show card items" color="inherit">
-              <Badge badgeContent={totalItems} color="secondary">
+              <Badge badgeContent={cart?.total_items} color="secondary">
                 <ShoppingCart />
               </Badge>
             </IconButton>

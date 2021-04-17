@@ -1,13 +1,18 @@
 import { Typography, Button, Card, CardActions, CardContent, CardMedia } from '@material-ui/core'
+import { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import { ContextCart } from '../../../context/Cart/StateCart'
 
 import useStyles from './styles'
 
-const CartItem = ({ cart: item, handleRemoveFromCart, handleUpdateCartQty }) => {
+const CartItem = ({ cart: item }) => {
 
   const history = useHistory()
   const classes = useStyles()
+
+  const { handleRemoveFromCart, handleUpdateCartQty } = useContext(ContextCart)
+
 
   const showDetailProduct = () => {
     history.push(`/product/${item.product_id}`)

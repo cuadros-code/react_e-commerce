@@ -3,14 +3,20 @@ import { AddShoppingCart } from '@material-ui/icons'
 import { useHistory } from 'react-router-dom'
 import useStyles from './styles'
 import styled from 'styled-components'
+import { useContext } from 'react'
+import { ContextCart } from '../../../context/Cart/StateCart'
 
-const Product = ({ product, handleAddToCard }) => {
+const Product = ({ product }) => {
   const history = useHistory()
   const classes = useStyles()
+
+  const { handleAddToCart } = useContext(ContextCart)
 
   const showDetailProduct = () => {
     history.push(`/product/${product.id}`)
   }
+
+
 
   return (
     <Card className={classes.root}
@@ -35,7 +41,10 @@ const Product = ({ product, handleAddToCard }) => {
 
           color="primary"
           aria-label="Add to Card"
-          onClick={() => handleAddToCard(product.id, 1)}
+          onClick={() => {
+            console.log(product);
+            handleAddToCart(product.id, 1)
+          }}
         >
           <AddShoppingCart />
         </IconButton>

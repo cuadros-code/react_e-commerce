@@ -1,9 +1,10 @@
 import { InputLabel, Select, MenuItem, Button, Grid, Typography } from '@material-ui/core'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import InputForm from './CustomTextField'
+import { commerce } from '../../lib/commerce'
 
-const AddressForm = () => {
+const AddressForm = ({ checkoutToken }) => {
 
   const [shippingCountries, setShippingCountries] = useState([])
   const [shippingCountry, setShippingCountry] = useState('')
@@ -13,6 +14,29 @@ const AddressForm = () => {
   const [shippingOpcion, setShippingOpcion] = useState('')
 
   const methods = useForm()
+
+  const fetchShippingCountries = async (checkoutTokenId) => {
+    const { countries } = await commerce.services.localeListShippingCountries(checkoutTokenId)
+    setShippingCountries(countries)
+    setShippingCountry(Object.keys(countries)[0])
+  }
+  const fetchSubdivisions = async (countryCode) => {
+    if (!countryCode) return
+    const { subdivisions } = await commerce.services.localeListSubdivisions(countryCode)
+    setShippingSubdivisions(subdivisions)
+    setShippingSubdivision(Object.keys(subdivisions)[0])
+  }
+
+  const subdivisions = Object.entries(shippingSubdivisions).map((city) => ({ code: city[0], name: city[1] }))
+
+  useEffect(() => {
+    fetchShippingCountries(checkoutToken?.id)
+  }, [])
+
+  useEffect(() => {
+    console.log(shippingCountry)
+    fetchSubdivisions(shippingCountry)
+  }, [shippingCountry])
 
   return (
     <>
@@ -29,18 +53,25 @@ const AddressForm = () => {
 
             <Grid item xs={12} sm={6}>
               <InputLabel>Shipping Country</InputLabel>
-              <Select value={''} fullWidth onChange >
-                <MenuItem key={''} value={''}>
-                  Select Me
-                </MenuItem>
+              <Select value={shippingCountry} fullWidth onChange={(e) => setShippingCountry(e.target.value)}>
+
+                {Object.entries(shippingCountries).map(([code, name]) => (
+                  <MenuItem key={code} value={code}>
+                    {name}
+                  </MenuItem>
+                ))}
               </Select>
             </Grid>
             <Grid item xs={12} sm={6}>
               <InputLabel>Shipping Subdivision</InputLabel>
-              <Select value={''} fullWidth onChange >
-                <MenuItem key={''} value={''}>
-                  Select Me
-                </MenuItem>
+              <Select value={shippingSubdivision} fullWidth onChange={(e) => setShippingSubdivision(e.target.value)}>
+                {
+                  subdivisions.map(sub => (
+                    <MenuItem key={sub.code} value={sub.code}>
+                      {sub.name}
+                    </MenuItem>
+                  ))
+                }
               </Select>
             </Grid>
             <Grid item xs={12} sm={6}>

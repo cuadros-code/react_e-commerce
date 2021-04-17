@@ -1,17 +1,26 @@
+import { useContext, useEffect, useState } from 'react'
 import { Container, Typography, Button, Grid } from '@material-ui/core'
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import CartItem from './CardItem/CartItem'
 import useStyles from './styles'
+import { ContextCart } from '../../context/Cart/StateCart'
 import styled from 'styled-components'
 
-const Cart = ({ cart, handleRemoveFromCart, handleUpdateCartQty, handleEmptyCart }) => {
+const Cart = () => {
   const classes = useStyles()
 
+  const { state: { cart, totalItems }, handleEmptyCart } = useContext(ContextCart)
   const [isEmptyCart, setIsEmptyCart] = useState(true)
+
   useEffect(() => {
-    setIsEmptyCart(!cart?.line_items?.length)
-  }, [cart])
+    if (totalItems > 0) {
+      setIsEmptyCart(false)
+    } else {
+      setIsEmptyCart(true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalItems])
+
 
 
   const EmptyCart = () => {
@@ -61,8 +70,6 @@ const Cart = ({ cart, handleRemoveFromCart, handleUpdateCartQty, handleEmptyCart
               <Grid item xs={12} sm={4} key={item.id}>
                 <CartItem
                   cart={item}
-                  handleRemoveFromCart={handleRemoveFromCart}
-                  handleUpdateCartQty={handleUpdateCartQty}
                 />
               </Grid>
             ))

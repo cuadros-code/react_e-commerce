@@ -1,8 +1,10 @@
 import { Typography, Button, CircularProgress } from "@material-ui/core"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams, useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import styled from 'styled-components'
+import { ContextProduct } from "../../context/Product/StateProduct"
+import { ContextCart } from "../../context/Cart/StateCart"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,18 +20,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DetailProduct = ({ getProductById, handleAddToCard }) => {
+const DetailProduct = () => {
 
   const classes = useStyles();
   const [product, setProduct] = useState(null)
   const params = useParams()
   const history = useHistory()
 
+  const { getProductById } = useContext(ContextProduct)
+  const { handleAddToCart } = useContext(ContextCart)
+
   const getProduct = async () => {
     try {
       const response = await getProductById(params.id)
       setProduct(response)
-
     } catch (error) {
       history.push('/')
     }
@@ -64,7 +68,7 @@ const DetailProduct = ({ getProductById, handleAddToCard }) => {
           variant="contained"
           size="small"
           color="secondary"
-          onClick={() => handleAddToCard(product?.id, 1)}
+          onClick={() => handleAddToCart(product?.id, 1)}
         >
           Add to list
         </Button>
