@@ -5,13 +5,14 @@ import { commerce } from '../../../lib/commerce'
 import AddressForm from '../AddressForm'
 import PaymentForm from '../PaymentForm'
 import useStyles from './styles'
-const steps = ['Shipping address', 'Payment details']
+const steps = ['Dirección de envío', 'Detalles de pago']
 
 const Checkout = () => {
   const classes = useStyles()
 
   // recorrido de llena informacion
   const [activeStep, setActiveStep] = useState(0)
+  const [data, setData] = useState(null)
   const [checkoutToken, setCheckoutToken] = useState(null)
 
   const { state: { cart } } = useContext(ContextCart)
@@ -19,7 +20,6 @@ const Checkout = () => {
 
   // generar token para las comprar del carrito
   useEffect(() => {
-
     const generateToken = async () => {
       try {
         const token = await commerce.checkout.generateToken(cart?.id, {
@@ -30,14 +30,20 @@ const Checkout = () => {
       }
     }
     // si carrito esta disponible
-    if (cart) {
-      generateToken()
-    }
+    if (cart) generateToken()
   }, [cart])
 
+  const nextStep = () => setActiveStep(activeStep + 1)
+  const backStep = () => setActiveStep(activeStep - 1)
+
+  const next = (data) => {
+    setData(data)
+    nextStep()
+  }
+
   const Form = () => activeStep === 0
-    ? <AddressForm checkoutToken={checkoutToken} />
-    : <PaymentForm />
+    ? <AddressForm checkoutToken={checkoutToken} next={next} />
+    : <PaymentForm checkoutToken={checkoutToken} backStep={backStep} nextStep={nextStep} data={data} />
 
   const Confirmation = () => (
     <div>

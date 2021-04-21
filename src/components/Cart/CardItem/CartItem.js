@@ -47,7 +47,7 @@ const CartItem = ({ cart: item }) => {
           color="secondary"
           onClick={() => handleRemoveFromCart(item.id)}
         >
-          Remove
+          Eliminar
           </Button>
       </CardActions>
     </Card>

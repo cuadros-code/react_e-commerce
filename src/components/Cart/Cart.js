@@ -26,8 +26,8 @@ const Cart = () => {
   const EmptyCart = () => {
     return (
       <Typography variant="subtitle1">
-        You have no items in your shopping card,{' '}
-        <Link to="/" className={classes.link} >start adding some!</Link>
+        No tiene artículos en tu carrito de compras,{' '}
+        <Link to="/" className={classes.link} >empieza agregando uno.</Link>
       </Typography>
     )
   }
@@ -50,7 +50,7 @@ const Cart = () => {
               color="secondary"
               onClick={handleEmptyCart}
             >
-              Empty Cart
+              Vaciar Carrito
             </Button>
             <Button
               className={classes.checkoutButton}
@@ -60,7 +60,7 @@ const Cart = () => {
               color="primary"
               component={Link} to="/checkout"
             >
-              Checkout
+              Efectuar Pago
             </Button>
           </div>
         </div>
@@ -83,7 +83,7 @@ const Cart = () => {
   return (
     <ContainerCart>
       <div className={classes.toolbar} />
-      <Typography className={classes.title} gutterBottom variant="h4">Your Shopping Cart</Typography>
+      <Typography className={classes.title} gutterBottom variant="h4">Tus Productos</Typography>
       { isEmptyCart ? <EmptyCart /> : <FilledCart />}
     </ContainerCart>
   )

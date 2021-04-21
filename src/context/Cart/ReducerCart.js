@@ -9,6 +9,16 @@ export const ReducerCart = (state, action) => {
         cart: action?.payload,
         totalItems: action?.payload?.total_items
       }
+    case cartTypes.placeOrder:
+      return {
+        ...state,
+        order: action.payload
+      }
+    case cartTypes.EmptyCart:
+      return {
+        ...state,
+        cart: action.payload,
+      }
     default:
       return state;
   }

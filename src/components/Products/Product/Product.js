@@ -42,7 +42,6 @@ const Product = ({ product }) => {
           color="primary"
           aria-label="Add to Card"
           onClick={() => {
-            console.log(product);
             handleAddToCart(product.id, 1)
           }}
         >

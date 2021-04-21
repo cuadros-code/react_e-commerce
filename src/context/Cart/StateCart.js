@@ -9,6 +9,7 @@ export const StateCart = (props) => {
 
   const initialState = {
     cart: null,
+    order: null,
     totalItems: null,
     itemsOnCart: null,
   }
@@ -55,6 +56,28 @@ export const StateCart = (props) => {
       payload: response?.cart
     })
   }
+  const refreshCart = async () => {
+    const newCart = await commerce.cart.refresh()
+    dispatch({
+      type: cartTypes.EmptyCart,
+      payload: newCart
+    })
+  }
+
+  const handleCaptureCheckout = async (checkoutTokenId, newOrder) => {
+    try {
+      console.log(checkoutTokenId, newOrder)
+      const incomingOrder = await commerce.checkout.capture(checkoutTokenId, newOrder)
+      // console.log(incomingOrder)
+      dispatch({
+        type: cartTypes.placeOrder,
+        payload: incomingOrder
+      })
+      refreshCart()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <ContextCart.Provider
@@ -64,7 +87,8 @@ export const StateCart = (props) => {
         handleAddToCart,
         handleUpdateCartQty,
         handleRemoveFromCart,
-        handleEmptyCart
+        handleEmptyCart,
+        handleCaptureCheckout
       }}
     >
       {props.children}

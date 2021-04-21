@@ -22,7 +22,7 @@ const Home = () => {
         variant="h4"
 
       >
-        Latest Products
+        Productos Nuevos
       </Typography>
       <Products
         products={lastProducts}

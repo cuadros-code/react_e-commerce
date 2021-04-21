@@ -12,6 +12,7 @@ const CustomTextField = ({ name, label, required }) => {
         control={control}
         render={({ field }) => (
           <TextField
+            {...field}
             fullWidth
             label={label}
             required={required}
